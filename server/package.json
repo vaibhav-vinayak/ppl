@@ -1,0 +1,9 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "backend service for the app",
+  "main": "index.js",
+  "keywords": [],
+  "author": "vaibhav",
+  "license": "ISC"
+}
