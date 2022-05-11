@@ -8,3 +8,7 @@
 
 # production
 /client/build
+
+# lock files
+/client/yarn.lock
+/client/package-lock.json
