@@ -1,8 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-const navLinkClass = ({ isActive }) => {
-  return `nav-link${isActive ? " active" : ""}`;
-};
+const navLinkClass = ({ isActive }) => `nav-link${isActive ? " active" : ""}`;
 
 const Navbar = () => (
   <nav className="navbar navbar-expand navbar-light bg-light">
