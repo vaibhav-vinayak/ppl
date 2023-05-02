@@ -5,5 +5,20 @@
   "main": "index.js",
   "keywords": [],
   "author": "vaibhav",
-  "license": "ISC"
+  "license": "ISC",
+  "scripts": {
+    "start": "nodemon --exec babel-node --presets='@babel/preset-env' -- src/server"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.8",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.21.5",
+    "nodemon": "^2.0.22"
+  }
 }
