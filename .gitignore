@@ -14,3 +14,7 @@
 /client/package-lock.json
 /server/yarn.lock
 /server/package-lock.json
+
+# env files
+/client/.env
+/server/.env
