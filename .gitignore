@@ -12,3 +12,5 @@
 # lock files
 /client/yarn.lock
 /client/package-lock.json
+/server/yarn.lock
+/server/package-lock.json
