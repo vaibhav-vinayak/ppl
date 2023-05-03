@@ -1,10 +1,10 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-const Navbar = lazy(() => import("components/Navbar"));
-const Home = lazy(() => import("pages/Home"));
-const Login = lazy(() => import("pages/Auth/Login"));
-const Signup = lazy(() => import("pages/Auth/Signup"));
+const Navbar = lazy(() => import("components/navbar"));
+const Home = lazy(() => import("pages/home"));
+const Login = lazy(() => import("pages/auth/Login"));
+const Signup = lazy(() => import("pages/auth/Signup"));
 
 const App = () => (
   <Router>
