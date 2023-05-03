@@ -1,16 +1,36 @@
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import useFormInput from "hooks/useFormInput";
 import Checkbox from "components/form-control/Checkbox";
 import Input from "components/form-control/Input";
 import GoogleIcon from "assets/images/google.webp";
 import FacebookIcon from "assets/images/facebook.webp";
+import { login } from "constants/apiEndpoints";
+import {
+  loginFailed,
+  loginRequest,
+  loginSuccess,
+  selectAuth,
+} from "./authSlice";
 
 const Login = () => {
   const email = useFormInput("");
   const password = useFormInput("");
-  console.log("email", email, "  password", password);
+  const dispatch = useDispatch();
 
-  const login = () => {
-    console.log("logging in...");
+  const { isLoading, error } = useSelector(selectAuth);
+
+  const handleLoginClick = async () => {
+    const formData = { email: email.value, password: password.value };
+    try {
+      dispatch(loginRequest());
+      const { data } = await axios.post(login, formData);
+      console.log("res...", data);
+      dispatch(loginSuccess(data));
+    } catch (err) {
+      console.error(err.message);
+      dispatch(loginFailed(err.message));
+    }
   };
 
   const loginWithGoogle = () => {
@@ -21,36 +41,42 @@ const Login = () => {
     console.log("logging in with Facebook...");
   };
 
-  return (
-    <div className="">
-      <div className="offset-sm-3 col-md-6">
-        <Input label="Email address" id="email" type="email" {...email} />
-        <Input label="Password" id="password" type="password" {...password} />
-        <Checkbox label="Remember Me" id="rememberMe" />
-        <button type="button" className="btn btn-primary w-100" onClick={login}>
-          Submit
-        </button>
-        <div className="position-relative my-4">
-          <div className="my-4 border border-gray" />
-          <div className="position-absolute top-50 start-50 translate-middle p-2 border-gray bg-light rounded-circle">
-            or
-          </div>
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : error ? (
+    <div>Error: {error.message}</div>
+  ) : (
+    <div className="offset-sm-3 col-md-6">
+      <Input label="Email address" id="email" type="email" {...email} />
+      <Input label="Password" id="password" type="password" {...password} />
+      <Checkbox label="Remember Me" id="rememberMe" />
+      <button
+        type="button"
+        className="btn btn-primary w-100"
+        onClick={handleLoginClick}
+      >
+        Submit
+      </button>
+      <div className="position-relative my-4">
+        <div className="my-4 border border-gray" />
+        <div className="position-absolute top-50 start-50 translate-middle p-2 border-gray bg-light rounded-circle">
+          or
         </div>
-        <div className="d-flex p-2 justify-content-center align-items-center gap-4">
-          <div className="text-center">Sign in using:</div>
-          <img
-            onClick={loginWithGoogle}
-            src={GoogleIcon}
-            width={30}
-            alt="google"
-          />
-          <img
-            onClick={loginWithFacebook}
-            src={FacebookIcon}
-            width={30}
-            alt="google"
-          />
-        </div>
+      </div>
+      <div className="d-flex p-2 justify-content-center align-items-center gap-4">
+        <div className="text-center">Sign in using:</div>
+        <img
+          onClick={loginWithGoogle}
+          src={GoogleIcon}
+          width={30}
+          alt="google"
+        />
+        <img
+          onClick={loginWithFacebook}
+          src={FacebookIcon}
+          width={30}
+          alt="google"
+        />
       </div>
     </div>
   );
