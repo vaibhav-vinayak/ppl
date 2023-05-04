@@ -1,5 +1,10 @@
 import axios from "axios";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+} from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import GoogleIcon from "assets/images/google.webp";
 import FacebookIcon from "assets/images/facebook.webp";
@@ -21,6 +26,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const auth = getAuth(fire);
   const googleProvider = new GoogleAuthProvider();
+  const facebookProvider = new FacebookAuthProvider();
 
   const { isLoading, error } = useSelector(selectAuth);
 
@@ -47,8 +53,14 @@ const Login = () => {
     }
   };
 
-  const loginWithFacebook = () => {
+  const loginWithFacebook = async () => {
     console.log("logging in with Facebook...");
+    try {
+      const { user } = await signInWithPopup(auth, facebookProvider);
+      console.log("google res...", user);
+    } catch (err) {
+      console.error("google err...", err.message);
+    }
   };
 
   return isLoading ? (
