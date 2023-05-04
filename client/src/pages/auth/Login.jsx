@@ -1,11 +1,13 @@
 import axios from "axios";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
-import useFormInput from "hooks/useFormInput";
-import Checkbox from "components/form-control/Checkbox";
-import Input from "components/form-control/Input";
 import GoogleIcon from "assets/images/google.webp";
 import FacebookIcon from "assets/images/facebook.webp";
+import Checkbox from "components/form-control/Checkbox";
+import Input from "components/form-control/Input";
+import useFormInput from "hooks/useFormInput";
 import { login } from "constants/apiEndpoints";
+import fire from "config/Firebase";
 import {
   loginFailed,
   loginRequest,
@@ -17,6 +19,8 @@ const Login = () => {
   const email = useFormInput("");
   const password = useFormInput("");
   const dispatch = useDispatch();
+  const auth = getAuth(fire);
+  const googleProvider = new GoogleAuthProvider();
 
   const { isLoading, error } = useSelector(selectAuth);
 
@@ -33,8 +37,14 @@ const Login = () => {
     }
   };
 
-  const loginWithGoogle = () => {
+  const loginWithGoogle = async () => {
     console.log("logging in with Google...");
+    try {
+      const { user } = await signInWithPopup(auth, googleProvider);
+      console.log("google res...", user.uid);
+    } catch (err) {
+      console.error("google err...", err.message);
+    }
   };
 
   const loginWithFacebook = () => {
